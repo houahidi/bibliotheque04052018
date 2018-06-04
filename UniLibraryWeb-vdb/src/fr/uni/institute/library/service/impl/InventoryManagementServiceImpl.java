@@ -23,21 +23,13 @@ import fr.uni.institute.library.service.ServiceException;
 
 public class InventoryManagementServiceImpl implements
 		InventoryManagementService {
-
 	private CategoryDao categoryDao;
-
 	private BookDao bookDao;
-
 	private AudioRecordDao audioRecordDao;
-
 	private CategoryTitleRelationDao relationDao;
-
 	private TitleDao titleDao;
-
 	private HashMap categories;
-
 	private HashMap books;
-
 	private HashMap audioRecords;
 
 	public void addCategory(Category category) throws ServiceException {
