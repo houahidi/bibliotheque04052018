@@ -1,37 +1,75 @@
 package fr.uni.institute.library.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Collection;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.uni.institute.library.business.inventory.Category;
+import fr.uni.institute.library.dao.CategoryDao;
+import fr.uni.institute.library.dao.DaoException;
+import fr.uni.institute.library.dao.jdbc.CategoryDaoJdbc;
+
 public class CategoryDaoTestCase {
-	
-	private static Logger logger = Logger.getLogger( CategoryDaoTestCase.class);
-	private int nombreAttendu;
+
+	private CategoryDao categoryDao;
+	private static Logger logger = Logger.getLogger(CategoryDaoTestCase.class);
+	private Connection connection;
+	private int nombreCategories;
 
 	@Before
 	public void setUp() throws Exception {
-		logger.info("Initialisation des ressources necessaires avant le lancement de test");
-		//chargement de fichiers xml ou autre pour recuperer les resultat attendu
-		nombreAttendu = 9;
-		
+		logger.info("initialisation des ressources");
+
+		InputStream file = CategoryDaoTestCase.class.getClassLoader().getResourceAsStream("db.properties");
+		Properties properties = new Properties();
+		properties.load(file);
+		String url = properties.getProperty("url");// "jdbc:mysql://localhost/uni_library_db?autoReconnect=true";
+		String login = properties.getProperty("login"); // "admin";
+		String password = properties.getProperty("password"); // "admin";
+		String driver = properties.getProperty("driver"); // "com.mysql.jdbc.Driver";
+		logger.debug("chargment de driver");
+		Class.forName(driver);
+		connection = DriverManager.getConnection(url, login, password);
+		categoryDao = new CategoryDaoJdbc(connection);
+		logger.debug("defintion du nombre categories");
+		nombreCategories = 9;
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		logger.info("Libération des ressources utilisees dans test");
+		logger.info("liberation des ressources");
+		logger.debug("cloture de la connexion");
+		connection.close();
+		connection = null;
+		logger.debug("liberation de service");
+		categoryDao = null;
 	}
 
-	@Test()
+	@Test
 	public void testResearchAllCategories() {
-		logger.info("Execution de test ResearchAllCategories");
-		int nombreCalcule = 9;
-		assertEquals(nombreAttendu, nombreCalcule);
-		//fail("Test de recherche des categories n'est pas encre implemente"); // TODO
+
+		try {
+			logger.info("testResearchAllCategories");
+			Collection<Category> categories = categoryDao.researchAllCategories();
+			assertNotNull(categories);
+			assertEquals(nombreCategories, categories.size(), 0);
+
+		} catch (DaoException e) {
+			fail(e.getMessage());
+		}
+
 	}
 
 }
