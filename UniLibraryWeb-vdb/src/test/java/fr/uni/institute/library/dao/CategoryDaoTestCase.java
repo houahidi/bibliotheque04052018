@@ -61,10 +61,13 @@ public class CategoryDaoTestCase {
 	public void testResearchAllCategories() {
 
 		try {
-			logger.info("testResearchAllCategories");
+			logger.info("Lancement de  testResearchAllCategories");
 			Collection<Category> categories = categoryDao.researchAllCategories();
+			logger.debug("Recuperation des categories de la BDD");
 			assertNotNull(categories);
+			logger.debug("la liste est non nulle");
 			assertEquals(nombreCategories, categories.size(), 0);
+			logger.debug("le nombre de categories calculé est equivaut au nombre de categories attendu");
 
 		} catch (DaoException e) {
 			fail(e.getMessage());
