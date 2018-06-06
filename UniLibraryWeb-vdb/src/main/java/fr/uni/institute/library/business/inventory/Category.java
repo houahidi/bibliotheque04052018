@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * @author S. Lietard
+ * @author HO
  * 
  */
 public class Category extends BusinessObject {

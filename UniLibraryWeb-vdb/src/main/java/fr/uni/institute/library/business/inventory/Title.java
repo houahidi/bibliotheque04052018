@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 /**
- * @author Stephane Lietard
+ * @author HO
  * 
  */
 public class Title extends BusinessObject {

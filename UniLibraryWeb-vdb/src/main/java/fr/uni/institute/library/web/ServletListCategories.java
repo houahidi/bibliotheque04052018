@@ -22,12 +22,12 @@ public class ServletListCategories extends ServletInventory {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			logger.info("Servlet gestion des catégories");			
+			logger.info("Servlet gestion des categories");			
 			logger.debug("Recuperation d'une connexion");
 			connection = getConnection();
 			InventoryManagementService service = new InventoryManagementServiceImpl();
 			service.setCategoryDao(new CategoryDaoJdbc(connection));
-			logger.debug("Recuperation des catégories de la bd");
+			logger.debug("Recuperation des categories de la bd");
 			Collection categories = service.getAllCategories() ;
 			request.setAttribute("categories", categories);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/displaycategories.jsp");

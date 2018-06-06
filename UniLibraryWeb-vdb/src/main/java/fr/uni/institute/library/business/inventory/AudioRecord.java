@@ -6,7 +6,7 @@ package fr.uni.institute.library.business.inventory;
 import java.util.Date;
 
 /**
- * @author Stephane Lietard
+ * @author HO
  * 
  */
 public class AudioRecord extends Title {
